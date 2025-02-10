@@ -57,6 +57,30 @@ public class User {
     // Default Constructor
     public User() {}
 
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public void setUpdated(Timestamp updated) {
+        this.updated = updated;
+    }
+
+    public Boolean getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(Boolean userStatus) {
+        this.userStatus = userStatus;
+    }
+
     // Getters and Setters
     public String getUserId() {
         return userId;
