@@ -11,7 +11,7 @@ import com.example.ExpenseManagement.entities.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
-	Optional<User> findByPhoneNo(String phoneNo);
+	User findByPhoneNo(String phoneNo);
 
 	boolean existsUserByUserId(String userId);
 }

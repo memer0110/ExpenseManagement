@@ -1,9 +1,10 @@
 package com.example.ExpenseManagement.services;
 
 
+import com.example.ExpenseManagement.entities.UserPrinciple;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,8 +13,6 @@ import org.springframework.stereotype.Service;
 import com.example.ExpenseManagement.entities.User;
 import com.example.ExpenseManagement.repositories.UserRepository;
 
-import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class MyUserDetailService implements UserDetailsService {
@@ -23,15 +22,13 @@ public class MyUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
-        User user = userRepo.findByPhoneNo(identifier)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with identifier: " + identifier));
+        User users = userRepo.findByPhoneNo(identifier);
+                /*.orElseThrow(() -> new UsernameNotFoundException("User not found with identifier: " + identifier));*/
 
-        List<GrantedAuthority> authorities = Arrays.asList(new SimpleGrantedAuthority(user.getRole()));
-        return new org.springframework.security.core.userdetails.User(
-                user.getUserId(),
-                user.getUserPassword(),
-                authorities
-        );
+        if (users==null){
+            throw new UsernameNotFoundException("User not Found");
+        }
+        return new UserPrinciple(users);
     }
 
 }
