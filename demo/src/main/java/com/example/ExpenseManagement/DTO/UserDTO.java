@@ -17,10 +17,10 @@ public class UserDTO {
     private Timestamp updated;
     private Boolean userStatus;
 
-    // Default Constructor
+   
     public UserDTO() {}
 
-    // Parameterized Constructor
+    
     public UserDTO(String userId, String countryCode, Timestamp created, String email, String firstName, 
                    String lastName, String gender, String imgUrl, Boolean isDeleted, String phoneNo, 
                    String role, Timestamp updated, Boolean userStatus) {
