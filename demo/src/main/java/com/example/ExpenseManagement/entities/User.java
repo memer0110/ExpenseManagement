@@ -62,7 +62,11 @@ public class User {
     // Default Constructor
     public User() {}
 
-    public void setCreated(Timestamp created) {
+    public User(String userId) {
+		this.userId = userId;
+	}
+
+	public void setCreated(Timestamp created) {
         this.created = created;
     }
 

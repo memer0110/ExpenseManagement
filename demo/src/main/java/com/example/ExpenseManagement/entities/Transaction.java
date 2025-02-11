@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+
 @Data
 @Entity
 @Table(name = "transactions")
@@ -86,7 +87,6 @@ public class Transaction {
 
     @OneToMany(mappedBy = "transaction")
     private List<Approval> approvals;
-
 
 
 }

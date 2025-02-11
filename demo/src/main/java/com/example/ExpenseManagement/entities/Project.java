@@ -94,8 +94,13 @@ public class Project {
 	public int getExpectedEndDuration() {
 		return expectedEndDuration;
 	}
+	
 
-    public boolean isDeleted() {
+    public void setExpectedEndDuration(int expectedEndDuration) {
+		this.expectedEndDuration = expectedEndDuration;
+	}
+
+	public boolean isDeleted() {
 		return isDeleted;
 	}
 
