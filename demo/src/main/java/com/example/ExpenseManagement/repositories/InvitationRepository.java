@@ -14,4 +14,6 @@ public interface InvitationRepository extends JpaRepository<Invitation,String> {
     Optional<Invitation> findByPhoneNumber(String number);
     @Query(value = "SELECT * FROM invitation WHERE invitation_id = :userId", nativeQuery = true)
     List<Invitation> findByUser(String userId);
+    
+    Optional<Invitation> findByInvitationId(String invitationId);
 }
