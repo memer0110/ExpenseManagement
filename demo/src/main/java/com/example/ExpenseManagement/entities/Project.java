@@ -55,7 +55,6 @@ public class Project {
     @Column(name = "updated", nullable = false, insertable = false)
     private Timestamp updated;
 
-	@Column(nullable = false)
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -95,8 +94,13 @@ public class Project {
 	public int getExpectedEndDuration() {
 		return expectedEndDuration;
 	}
+	
 
-    public boolean isDeleted() {
+    public void setExpectedEndDuration(int expectedEndDuration) {
+		this.expectedEndDuration = expectedEndDuration;
+	}
+
+	public boolean isDeleted() {
 		return isDeleted;
 	}
 

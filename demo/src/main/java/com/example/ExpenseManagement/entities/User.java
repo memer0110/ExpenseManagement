@@ -56,13 +56,17 @@ public class User {
     @Column(name = "userstatus", nullable = false)
     private Boolean userStatus;
 
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "user")
     private List<Project> projects;
 
     // Default Constructor
     public User() {}
 
-    public void setCreated(Timestamp created) {
+    public User(String userId) {
+		this.userId = userId;
+	}
+
+	public void setCreated(Timestamp created) {
         this.created = created;
     }
 
