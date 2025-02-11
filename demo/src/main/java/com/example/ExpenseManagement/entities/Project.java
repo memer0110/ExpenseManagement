@@ -55,7 +55,6 @@ public class Project {
     @Column(name = "updated", nullable = false, insertable = false)
     private Timestamp updated;
 
-	@Column(nullable = false)
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
