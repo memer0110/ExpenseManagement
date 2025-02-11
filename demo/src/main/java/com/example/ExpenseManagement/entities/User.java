@@ -1,7 +1,9 @@
 package com.example.ExpenseManagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "users", schema = "expensemanagement")
@@ -54,8 +56,35 @@ public class User {
     @Column(name = "userstatus", nullable = false)
     private Boolean userStatus;
 
+    @OneToMany(mappedBy = "user_id")
+    private List<Project> projects;
+
     // Default Constructor
     public User() {}
+
+    public void setCreated(Timestamp created) {
+        this.created = created;
+    }
+
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public void setUpdated(Timestamp updated) {
+        this.updated = updated;
+    }
+
+    public Boolean getUserStatus() {
+        return userStatus;
+    }
+
+    public void setUserStatus(Boolean userStatus) {
+        this.userStatus = userStatus;
+    }
 
     // Getters and Setters
     public String getUserId() {
