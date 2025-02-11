@@ -9,6 +9,7 @@ import com.example.ExpenseManagement.entities.InvitationStatus;
 import com.example.ExpenseManagement.entities.Project;
 import com.example.ExpenseManagement.entities.User;
 import com.example.ExpenseManagement.repositories.InvitationRepository;
+import com.example.ExpenseManagement.repositories.ProjectRepository;
 import com.example.ExpenseManagement.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,7 +42,7 @@ public class InvitationService implements InvitationImpl {
         String number=invitationDTO.getContactNumber();
         String userId = jwtService.extractUserId(token);
         User invitedBy = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found"));
+                .orElseThrow(() -> new UserNotFoundException("User not found with this Id"));
        User invitedUser = userRepository.findByPhoneNo(number);
         if (invitedUser==null) {
             throw new UserNotFoundException("User not registered in the system");
@@ -76,13 +77,12 @@ public class InvitationService implements InvitationImpl {
     public List<InvitationDTO> getInvitationsSentByUser(String token) {
         // Extract userId from the token
         String userId = jwtService.extractUserId(token);
-
         // Fetch invitations sent by this user
-        List<Invitation> invitations = invitationRepository.findBySentBy(userId);
-
+        List<Invitation> invitations = invitationRepository.findByUser(userId);
         // Convert Invitation entities to DTOs
         return invitations.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
+
     private InvitationDTO mapToDTO(Invitation invitation) {
         return new InvitationDTO(
                 invitation.getUserName(),

@@ -2,6 +2,7 @@ package com.example.ExpenseManagement.services;
 
 import java.util.Optional;
 
+import com.example.ExpenseManagement.customExceptionHandel.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,8 +40,10 @@ public class UserService {
         String credential = user.getPhoneNo();
 
         User fullUser = userRepository.findByPhoneNo(credential);
-                /*.orElseThrow(() -> new RuntimeException("User not found"));
-*/
+                if (fullUser==null)
+                {
+                    throw new UserNotFoundException("User Not Found With this Phone Number ");
+                }
         System.out.println("User found: " + fullUser);
 
         // Authenticate using Spring Security's AuthenticationManager
