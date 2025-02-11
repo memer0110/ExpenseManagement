@@ -56,7 +56,7 @@ public class User {
     @Column(name = "userstatus", nullable = false)
     private Boolean userStatus;
 
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "user")
     private List<Project> projects;
 
     // Default Constructor
