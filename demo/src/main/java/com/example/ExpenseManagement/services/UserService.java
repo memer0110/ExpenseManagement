@@ -38,9 +38,9 @@ public class UserService {
     public AuthResponseDTO authenticateUser(User user) {
         String credential = user.getPhoneNo();
 
-        User fullUser = userRepository.findByPhoneNo(credential)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
+        User fullUser = userRepository.findByPhoneNo(credential);
+                /*.orElseThrow(() -> new RuntimeException("User not found"));
+*/
         System.out.println("User found: " + fullUser);
 
         // Authenticate using Spring Security's AuthenticationManager

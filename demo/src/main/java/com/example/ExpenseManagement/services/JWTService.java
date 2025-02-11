@@ -78,6 +78,7 @@ public class JWTService {
             logger.error("Error extracting user ID from token", e);
             return null;
         }
+
     }
 
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
