@@ -22,6 +22,8 @@ public class JWTService {
     
     private final String secret = "YourSuperSecretKeyForJWTValidationMustBeLongEnough";
     private final SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes());
+    
+    
     private final MyUserDetailService myUserDetails;
 
     @Autowired
