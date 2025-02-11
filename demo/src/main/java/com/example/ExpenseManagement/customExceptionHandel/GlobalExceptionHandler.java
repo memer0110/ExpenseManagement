@@ -5,12 +5,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.time.LocalDateTime;
+
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleResourceNotFoundException(ResourceNotFoundException ex) {
@@ -47,5 +52,20 @@ public class GlobalExceptionHandler {
         response.put("timestamp", Instant.now());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
+
+
+
+    @ExceptionHandler(InvitationNotFound.class)
+    public ResponseEntity<?>InvitationNotFoundException(InvitationNotFound exception) {
+     ErrorResponce errorResponce=new ErrorResponce(LocalDateTime.now(),exception.getMessage(),"SomeThing Went Wrong");
+     return new ResponseEntity<>(errorResponce, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<?>userNotFoundException(UserNotFoundException exception) {
+        ErrorResponce errorResponce=new ErrorResponce(LocalDateTime.now(),exception.getMessage(),"SomeThing Went Wrong");
+        return new ResponseEntity<>(errorResponce, HttpStatus.NOT_FOUND);
+    }
+
 }
 

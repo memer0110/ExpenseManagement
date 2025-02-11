@@ -3,7 +3,11 @@ package com.example.ExpenseManagement.entities;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+
 import jakarta.persistence.*;
+
+import lombok.Setter;
+
 
 @Entity
 @Table(name = "projects", schema = "expensemanagement")
@@ -20,6 +24,7 @@ public class Project {
     @Column(name = "expected_end_date")
     private LocalDateTime expectedEndDate;
 
+    @Setter
     @Column(name = "expected_end_duration", nullable = false)
     private int expectedEndDuration;
 
@@ -91,11 +96,7 @@ public class Project {
 		return expectedEndDuration;
 	}
 
-	public void setExpectedEndDuration(int expectedEndDuration) {
-		this.expectedEndDuration = expectedEndDuration;
-	}
-
-	public boolean isDeleted() {
+    public boolean isDeleted() {
 		return isDeleted;
 	}
 
@@ -166,7 +167,5 @@ public class Project {
 	public void setUpdated(Timestamp updated) {
 		this.updated = updated;
 	}
-    
-    
-    
+
 }

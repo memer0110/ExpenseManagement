@@ -68,9 +68,8 @@ public class JWTService {
     }
 
 
-
+//for extracting userId
     public String extractUserId(String token) {
-
         return extractClaim(token, Claims::getSubject);
     }
 
