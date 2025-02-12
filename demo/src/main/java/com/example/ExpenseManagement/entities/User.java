@@ -209,5 +209,6 @@ public class User {
     public void setUserStatus(boolean userStatus) {
         this.userStatus = userStatus;
     }
+
 }
 

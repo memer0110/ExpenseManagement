@@ -18,9 +18,9 @@ import com.example.ExpenseManagement.repositories.UserRepository;
 @Service
 public class ApprovalService {
 
-
     @Autowired
     private ApprovalRepository approvalRepository;
+
 
     @Autowired
     private InvitationRepository invitationRepository;
