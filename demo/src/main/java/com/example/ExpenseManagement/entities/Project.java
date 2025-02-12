@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 
 @Entity
@@ -18,13 +20,14 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String projectId;
 
-    @Column(name = "created", nullable = false, updatable = false)
+	@CreationTimestamp
+    @Column(name = "created", updatable = false)
     private Timestamp created;
 
     @Column(name = "expected_end_date")
     private LocalDateTime expectedEndDate;
 
-    @Setter
+
     @Column(name = "expected_end_duration", nullable = false)
     private int expectedEndDuration;
 
@@ -52,8 +55,10 @@ public class Project {
     @Column(name = "start_date", nullable = false)
     private LocalDateTime startDate;
 
-    @Column(name = "updated", nullable = false, insertable = false)
-    private Timestamp updated;
+	@UpdateTimestamp
+	@Column(name = "updated", nullable = false)
+	private Timestamp updated;
+
 
 
 	@ManyToOne
@@ -97,12 +102,12 @@ public class Project {
 	public int getExpectedEndDuration() {
 		return expectedEndDuration;
 	}
-	
 
-    public void setExpectedEndDuration(int expectedEndDuration) {
+
+
+	public void setExpectedEndDuration(int expectedEndDuration) {
 		this.expectedEndDuration = expectedEndDuration;
 	}
-
 	public boolean isDeleted() {
 		return isDeleted;
 	}

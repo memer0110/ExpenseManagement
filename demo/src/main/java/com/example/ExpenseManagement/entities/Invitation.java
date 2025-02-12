@@ -1,6 +1,9 @@
 package com.example.ExpenseManagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 import java.util.UUID;
@@ -9,13 +12,15 @@ public class Invitation {
 
     @Id
     @Column(name = "invitation_id",updatable = false, nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String invitationId;
 
     @Column(name = "country_code")
     private String countryCode;
 
     @Column(name = "created")
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date created;
 
     @Enumerated(EnumType.STRING)
@@ -28,26 +33,27 @@ public class Invitation {
     private double projectedBudget;
 
     @Column(name = "updated")
-    @Temporal(TemporalType.TIMESTAMP)
+    //@Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     private Date updated;
 
     @Column(name = "user_name")
     private String userName;
-
+    @JsonIgnore
     @ManyToOne  // Many Invitations to One Project
     @JoinColumn(name = "project_id")
     private Project project;
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    @PrePersist
+    /*@PrePersist
     public void prePersist() {
         if (this.invitationId == null) {
-            this.invitationId = UUID.randomUUID().toString().replace("-", "");
+            this.invitationId = UUID.randomUUID();
         }
-    }
+    }*/
 
     public Invitation() {
     }

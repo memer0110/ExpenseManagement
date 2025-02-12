@@ -3,6 +3,7 @@ package com.example.ExpenseManagement.controllers;
 import com.example.ExpenseManagement.DTO.InvitationDTO;
 import com.example.ExpenseManagement.customExceptionHandel.InvitationNotFound;
 import com.example.ExpenseManagement.entities.Invitation;
+import com.example.ExpenseManagement.entities.InvitationStatus;
 import com.example.ExpenseManagement.services.InvitationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +33,7 @@ public class InvitationController {
     }
 
     @GetMapping("/getall")
-    public ResponseEntity<?>getAllInvitation()
-    {
+    public ResponseEntity<?>getAllInvitation() {
         logger.info("Inside Get All Invitation controller");
         List<Invitation> allInvitation = invitationService.getAllInvitation();
         if (allInvitation.isEmpty()) {
@@ -42,4 +42,34 @@ public class InvitationController {
         return new ResponseEntity<>(allInvitation,HttpStatus.OK);
     }
 
+
+
+    @GetMapping("/getInvitationByUser")
+    public ResponseEntity<?> getSentInvitations(
+            @RequestHeader("Authorization") String token) {
+        List<InvitationDTO> invitations = invitationService.getInvitationsSentByUser(token);
+        if (invitations.isEmpty()){
+            throw new InvitationNotFound("Invitations Not Found ");
+        }
+        return new ResponseEntity<>(invitations,HttpStatus.OK);
+    }
+
+    @GetMapping("/pending")
+    public ResponseEntity<?> getPendingInvitations() {
+        List<Invitation> pendingInvitations = invitationService.getPendingInvitations();
+        if (pendingInvitations.isEmpty()) {
+            throw new InvitationNotFound("No Pending Invitation Found");
+        }
+        return new ResponseEntity<>(pendingInvitations,HttpStatus.OK);
+    }
+
+    @PutMapping("/{invitationId}/status")
+    public ResponseEntity<Invitation> updateInvitationStatus(
+            @PathVariable String invitationId,
+            @RequestParam InvitationStatus status) {
+        Invitation updatedInvitation = invitationService.updateInvitationStatus(invitationId, status);
+        return ResponseEntity.ok(updatedInvitation);
+    }
+
+}
 

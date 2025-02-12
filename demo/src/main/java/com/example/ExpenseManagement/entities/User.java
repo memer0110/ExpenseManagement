@@ -2,7 +2,7 @@ package com.example.ExpenseManagement.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.CreatedDate;
+
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -19,8 +19,11 @@ public class User {
     @Column(name = "country_code")
     private String countryCode;
 
-    @CreatedDate
-    @Column(name = "created", nullable = false, updatable = false, insertable = false)
+
+
+    @CreationTimestamp
+    @Column(name = "created", nullable = false, updatable = false)
+
     private Timestamp created;
 
     @Column(name = "email", nullable = false)
@@ -50,8 +53,10 @@ public class User {
     @Column(name = "token")
     private String token;
 
-    @Column(name = "updated", nullable = false, insertable = false)
+    @UpdateTimestamp
+    @Column(name = "updated", nullable = false)
     private Timestamp updated;
+
 
     @Column(name = "user_password", nullable = false)
     private String userPassword;
@@ -62,11 +67,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Project> projects;
 
-    // Default Constructor
+
     public User() {}
 
-    public User(String userId) {
-		this.userId = userId;
+    public User(String userId2) {
+		this.userId = userId2;
 	}
 
 	public void setCreated(Timestamp created) {
