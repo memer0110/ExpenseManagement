@@ -45,7 +45,7 @@ public class UserService {
         User fullUser = userRepository.findByPhoneNo(credential);
         String userId = fullUser.getUserId();
 
-        System.out.println("User found: " + fullUser);
+//        System.out.println("User found: " + fullUser);
 
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userId, user.getUserPassword())

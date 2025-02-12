@@ -1,73 +1,127 @@
 package com.example.ExpenseManagement.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
+@Entity
+@Table(name = "project_members")
 public class ProjectMember {
+    @Id
+    @Column(name = "project_member_id")
+    private String projectMemberId;
+    @Column(name = "created")
+    private Timestamp created ;
+    @Column(name = "project_member_actual_shares")
+    private double projectMemberActualShares;
+    @Column(name = "project_member_investment")
+    private double projectMemberInvestment ;
+    @Column(name = "project_member_profit_shares")
+    private double projectMemberProfitShares ;
+    @Column(name = "project_member_status")
+    private String projectMemberstatus ;
+    @Column(name = "project_member_type")
+    private String projectMemberType ;
+    @Column(name = "updated")
+    private Timestamp updated ;
 
-    private String project_members_shares_id;
-    private Date created;
-    private String member_share_status ;
-    private double project_member_actual_shares ;
-    private double project_member_profit_shares;
-    private Date updated;
-    private String project_member_id;
+    @ManyToOne
+    @JoinColumn(name = "project_id",nullable = false)
+    private Project project;
 
-    public Date getCreated() {
+    @Column(name = "sub_user_id",nullable = true)
+    private String subUserId ;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id",nullable = false)
+    private User user;
+
+    public Timestamp getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(Timestamp created) {
         this.created = created;
     }
 
-    public Date getUpdated() {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Timestamp getUpdated() {
         return updated;
     }
 
-    public void setUpdated(Date updated) {
+    public void setUpdated(Timestamp updated) {
         this.updated = updated;
     }
 
-    public String getProject_members_shares_id() {
-        return project_members_shares_id;
+    public String getSubUserId() {
+        return subUserId;
     }
 
-    public void setProject_members_shares_id(String project_members_shares_id) {
-        this.project_members_shares_id = project_members_shares_id;
+    public void setSubUserId(String subUserId) {
+        this.subUserId = subUserId;
     }
 
-    public double getProject_member_profit_shares() {
-        return project_member_profit_shares;
+    public String getProjectMemberType() {
+        return projectMemberType;
     }
 
-    public void setProject_member_profit_shares(double project_member_profit_shares) {
-        this.project_member_profit_shares = project_member_profit_shares;
+    public void setProjectMemberType(String projectMemberType) {
+        this.projectMemberType = projectMemberType;
     }
 
-    public String getProject_member_id() {
-        return project_member_id;
+    public String getProjectMemberstatus() {
+        return projectMemberstatus;
     }
 
-    public void setProject_member_id(String project_member_id) {
-        this.project_member_id = project_member_id;
+    public void setProjectMemberstatus(String projectMemberstatus) {
+        this.projectMemberstatus = projectMemberstatus;
     }
 
-    public double getProject_member_actual_shares() {
-        return project_member_actual_shares;
+    public double getProjectMemberProfitShares() {
+        return projectMemberProfitShares;
     }
 
-    public void setProject_member_actual_shares(double project_member_actual_shares) {
-        this.project_member_actual_shares = project_member_actual_shares;
+    public void setProjectMemberProfitShares(double projectMemberProfitShares) {
+        this.projectMemberProfitShares = projectMemberProfitShares;
     }
 
-    public String getMember_share_status() {
-        return member_share_status;
+    public double getProjectMemberInvestment() {
+        return projectMemberInvestment;
     }
 
-    public void setMember_share_status(String member_share_status) {
-        this.member_share_status = member_share_status;
+    public void setProjectMemberInvestment(double projectMemberInvestment) {
+        this.projectMemberInvestment = projectMemberInvestment;
+    }
+
+    public String getProjectMemberId() {
+        return projectMemberId;
+    }
+
+    public void setProjectMemberId(String projectMemberId) {
+        this.projectMemberId = projectMemberId;
+    }
+
+    public double getProjectMemberActualShares() {
+        return projectMemberActualShares;
+    }
+
+    public void setProjectMemberActualShares(double projectMemberActualShares) {
+        this.projectMemberActualShares = projectMemberActualShares;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }

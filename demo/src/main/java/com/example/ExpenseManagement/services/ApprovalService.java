@@ -40,37 +40,39 @@ public class ApprovalService {
 	   @Transactional
 	    public ApprovalDTO approveInvitation(String token, String invitationId, String status) {
 
-	        String userId = jwtService.extractUserId(token);
+		   String userId = jwtService.extractUserId(token);
 
 
-	        Invitation invitation = invitationRepository.findById(invitationId)
-	                .orElseThrow(() -> new RuntimeException("Invitation not found"));
+		   Invitation invitation = invitationRepository.findById(invitationId)
+				   .orElseThrow(() -> new RuntimeException("Invitation not found"));
 
 
-	        Approval approval = new Approval();
-	        approval.setApprovalStatus(status);
-	        approval.setApprovalType("INVITATION");
-	        approval.setCreated(LocalDateTime.now());
-	        approval.setUpdated(LocalDateTime.now());
-	        approval.setInvitation(invitation);
-	        approval.setProject(invitation.getProject());
-	        approval.setUser(new User(userId));
-
-	        
-	        approvalRepository.save(approval);
-	        invitationService.updateInvitationStatus(invitationId, status);
+		   Approval approval = new Approval();
+		   approval.setApprovalStatus(status);
+		   approval.setApprovalType("INVITATION");
+		   approval.setCreated(LocalDateTime.now());
+		   approval.setUpdated(LocalDateTime.now());
+		   approval.setInvitation(invitation);
+		   approval.setProject(invitation.getProject());
+		   approval.setUser(new User(userId));
 
 
-	        return new ApprovalDTO(
-	                approval.getApprovalId(),
-	                approval.getApprovalStatus(),
-	                approval.getApprovalType(),
-	                invitation.getInvitationId(),
-	                invitation.getProject().getProjectId(),
-	                userId,
-	                approval.getCreated(),
-	                approval.getUpdated()
-	        );
+		   approvalRepository.save(approval);
+		   //    invitationService.updateInvitationStatus(invitationId, status);
+
+//
+//	        return new ApprovalDTO(
+//	                approval.getApprovalId(),
+//	                approval.getApprovalStatus(),
+//	                approval.getApprovalType(),
+//	                invitation.getInvitationId(),
+//	                invitation.getProject().getProjectId(),
+//	                userId,
+//	                approval.getCreated(),
+//	                approval.getUpdated()
+//	        );
+
+		   return null;
 	    }
 }
 
