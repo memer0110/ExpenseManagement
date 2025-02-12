@@ -1,11 +1,13 @@
 package com.example.ExpenseManagement.services;
 
+import java.sql.Timestamp;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.ExpenseManagement.DTO.AuthResponseDTO;
@@ -24,28 +26,31 @@ public class UserService {
     
     @Autowired
     AuthenticationManager authManager;
-
+    
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
 	
     public User saveUser(User user) {
+        user.setUserPassword(encoder.encode(user.getUserPassword()));
         return userRepository.save(user);
     }
     
-    public boolean isUserExist(String userId) {
-    	return userRepository.existsUserByUserId(userId);
+    public boolean isUserExist(String phoneNo) {
+    	return userRepository.findByPhoneNo(phoneNo) != null;
     }
     
     public AuthResponseDTO authenticateUser(User user) {
         String credential = user.getPhoneNo();
 
-        Optional<User> fullUser = userRepository.findByPhoneNo(credential);
-                /*.orElseThrow(() -> new RuntimeException("User not found"));
-*/
+
+        User fullUser = userRepository.findByPhoneNo(credential);
+        String userId = fullUser.getUserId();
+
+
         System.out.println("User found: " + fullUser);
 
-        // Authenticate using Spring Security's AuthenticationManager
         Authentication authentication = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(credential, user.getUserPassword())
+                new UsernamePasswordAuthenticationToken(userId, user.getUserPassword())
         );
         
 
