@@ -19,11 +19,12 @@ public class ProjectService {
 
 
     public Project saveProject(Project project) {
-        if (project == null) {
-            throw new BadRequestException("Project data cannot be null.");
+        if (project == null || project.getUser() == null || project.getUser().getUserId() == null) {
+            throw new BadRequestException("Project data or user ID cannot be null.");
         }
         return projectRepository.save(project);
     }
+
     public Project updateProject(String projectId, String userId, Project updatedProject) {
         Optional<Project> existingProjectOptional = projectRepository.findById(projectId);
 
@@ -34,7 +35,6 @@ public class ProjectService {
             if (!existingProject.getUser().getUserId().equals(userId)) {
                 throw new UnauthorizedException("You are not authorized to update this project.");
             }
-
 
             existingProject.setProjectName(updatedProject.getProjectName());
             existingProject.setProjectDepartment(updatedProject.getProjectDepartment());
