@@ -2,6 +2,7 @@ package com.example.ExpenseManagement.DTO;
 
 import com.example.ExpenseManagement.DTO.ProjectDTO;
 import com.example.ExpenseManagement.entities.Project;
+import com.example.ExpenseManagement.entities.User;
 
 public class ProjectMapper {
 
@@ -35,6 +36,9 @@ public class ProjectMapper {
         project.setExpectedEndDuration(projectDTO.getExpectedEndDuration());
         project.setDeleted(projectDTO.isDeleted());
         project.setStartDate(projectDTO.getStartDate());
+        User user = new User();
+        user.setUserId(projectDTO.getUserId());  // Assuming user ID is valid
+        project.setUser(user);
         return project;
     }
 }
