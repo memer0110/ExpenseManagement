@@ -18,13 +18,13 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String projectId;
 
-    @Column(name = "created", nullable = false, updatable = false)
+    @Column(name = "created", updatable = false)
     private Timestamp created;
 
     @Column(name = "expected_end_date")
     private LocalDateTime expectedEndDate;
 
-    @Setter
+
     @Column(name = "expected_end_duration", nullable = false)
     private int expectedEndDuration;
 
@@ -52,7 +52,7 @@ public class Project {
     @Column(name = "start_date", nullable = false)
     private LocalDateTime startDate;
 
-    @Column(name = "updated", nullable = false, insertable = false)
+    @Column(name = "updated", insertable = false)
     private Timestamp updated;
 
 	@ManyToOne
@@ -95,7 +95,12 @@ public class Project {
 		return expectedEndDuration;
 	}
 
-    public boolean isDeleted() {
+
+
+	public void setExpectedEndDuration(int expectedEndDuration) {
+		this.expectedEndDuration = expectedEndDuration;
+	}
+	public boolean isDeleted() {
 		return isDeleted;
 	}
 

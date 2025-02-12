@@ -56,7 +56,6 @@ public class InvitationService implements InvitationImpl {
         if (existingInvitation.isPresent()) {
             throw new InvitationNotFound("Invitation already sent!");
         }
-
         Invitation invitation = new Invitation();
         invitation.setUserName(invitationDTO.getName());
         invitation.setPhoneNumber(invitationDTO.getContactNumber());
@@ -65,7 +64,6 @@ public class InvitationService implements InvitationImpl {
         invitation.setInvitationId(String.valueOf(invitedBy));
         invitation.setStatus(InvitationStatus.PENDING);
         return invitationRepository.save(invitation);
-
     }
 
     @Override
@@ -75,11 +73,9 @@ public class InvitationService implements InvitationImpl {
     }
 
     public List<InvitationDTO> getInvitationsSentByUser(String token) {
-        // Extract userId from the token
+        logger.info("Find All Invitations Send By Self");
         String userId = jwtService.extractUserId(token);
-        // Fetch invitations sent by this user
         List<Invitation> invitations = invitationRepository.findByUser(userId);
-        // Convert Invitation entities to DTOs
         return invitations.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
@@ -88,8 +84,14 @@ public class InvitationService implements InvitationImpl {
                 invitation.getUserName(),
                 invitation.getProject().getProjectId(),
                 invitation.getPhoneNumber(),
-                invitation.getProjectedBudget()
+                invitation.getProjectedBudget(),
+                invitation.getStatus()
         );
+    }
+
+    public List<Invitation> getPendingInvitations() {
+        logger.info("Get All Pending Invitation");
+        return invitationRepository.findByStatus(InvitationStatus.PENDING);
     }
 
 }

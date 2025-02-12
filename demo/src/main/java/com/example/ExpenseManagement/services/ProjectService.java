@@ -24,6 +24,7 @@ public class ProjectService {
         }
         return projectRepository.save(project);
     }
+
     public Project updateProject(String projectId, String userId, Project updatedProject) {
         Optional<Project> existingProjectOptional = projectRepository.findById(projectId);
 
@@ -34,7 +35,6 @@ public class ProjectService {
             if (!existingProject.getUser().getUserId().equals(userId)) {
                 throw new UnauthorizedException("You are not authorized to update this project.");
             }
-
 
             existingProject.setProjectName(updatedProject.getProjectName());
             existingProject.setProjectDepartment(updatedProject.getProjectDepartment());

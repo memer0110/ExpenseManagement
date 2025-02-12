@@ -59,7 +59,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Project> projects;
 
-    // Default Constructor
+
     public User() {}
 
     public void setCreated(Timestamp created) {

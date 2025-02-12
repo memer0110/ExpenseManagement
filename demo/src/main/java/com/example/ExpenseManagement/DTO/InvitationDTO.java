@@ -1,20 +1,24 @@
 package com.example.ExpenseManagement.DTO;
 
 
+import com.example.ExpenseManagement.entities.InvitationStatus;
+
 public class InvitationDTO {
     private String name;
     private String projectId;
     private String contactNumber;
     private Double projectedAmount;
+    private InvitationStatus status;
 
     public InvitationDTO() {
     }
 
-    public InvitationDTO(String name, String projectId, String contactNumber, Double projectedAmount) {
+    public InvitationDTO(String name, String projectId, String contactNumber, Double projectedAmount, InvitationStatus status) {
         this.name = name;
         this.projectId = projectId;
         this.contactNumber = contactNumber;
         this.projectedAmount = projectedAmount;
+        this.status = status;
     }
 
     public String getName() {
@@ -47,5 +51,13 @@ public class InvitationDTO {
 
     public void setProjectedAmount(Double projectedAmount) {
         this.projectedAmount = projectedAmount;
+    }
+
+    public InvitationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(InvitationStatus status) {
+        this.status = status;
     }
 }

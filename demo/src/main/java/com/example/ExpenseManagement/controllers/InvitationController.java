@@ -2,6 +2,7 @@ package com.example.ExpenseManagement.controllers;
 
 import com.example.ExpenseManagement.DTO.InvitationDTO;
 import com.example.ExpenseManagement.customExceptionHandel.InvitationNotFound;
+import com.example.ExpenseManagement.customExceptionHandel.UserNotFoundException;
 import com.example.ExpenseManagement.entities.Invitation;
 import com.example.ExpenseManagement.services.InvitationService;
 import org.slf4j.Logger;
@@ -42,4 +43,20 @@ public class InvitationController {
         return new ResponseEntity<>(allInvitation,HttpStatus.OK);
     }
 
+
+    @GetMapping("/getInvitationByUser")
+    public ResponseEntity<List<InvitationDTO>> getSentInvitations(
+            @RequestHeader("Authorization") String token) {
+        List<InvitationDTO> invitations = invitationService.getInvitationsSentByUser(token);
+        return ResponseEntity.ok(invitations);
+    }
+
+    @GetMapping("/pending")
+    public ResponseEntity<?> getPendingInvitations() {
+        List<Invitation> pendingInvitations = invitationService.getPendingInvitations();
+        if (pendingInvitations.isEmpty()) {
+            throw new InvitationNotFound("No Invitation Found With this id");
+        }
+        return new ResponseEntity<>(pendingInvitations,HttpStatus.OK);
+    }
 }
