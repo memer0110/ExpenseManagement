@@ -1,12 +1,15 @@
 package com.example.ExpenseManagement.services;
 
 import com.example.ExpenseManagement.DTO.TransactionDTO;
+import com.example.ExpenseManagement.customExceptionHandel.ResourceNotFoundException;
 import com.example.ExpenseManagement.entities.Transaction;
-import com.example.ExpenseManagement.exceptions.ResourceNotFoundException;
 import com.example.ExpenseManagement.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +20,7 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
 
+    private Logger log= LoggerFactory.getLogger(TransactionService.class);
     public TransactionService(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
     }

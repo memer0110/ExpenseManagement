@@ -4,6 +4,8 @@ import com.example.ExpenseManagement.DTO.TransactionDTO;
 import com.example.ExpenseManagement.entities.Transaction;
 import com.example.ExpenseManagement.services.TransactionService;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @Slf4j
 public class TransactionController {
 
+    private Logger log= LoggerFactory.getLogger(TransactionController.class);
     private final TransactionService transactionService;
 
     public TransactionController(TransactionService transactionService) {
