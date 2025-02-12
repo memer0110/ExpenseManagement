@@ -5,63 +5,42 @@ import com.example.ExpenseManagement.repositories.ProjectEditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 @Service
 public class ProjectEditService {
 
     @Autowired
     private ProjectEditRepository projectEditRepository;
 
-    // This method will allow you to save a new ProjectEdit entity
-    public ProjectEdit createProjectEdit(ProjectEdit projectEdit) {
+    // Create a new Project Edit
+    public ProjectEdit saveProjectEdit(ProjectEdit projectEdit) {
         return projectEditRepository.save(projectEdit);
     }
 
-    // Edit project name
-    public ProjectEdit editProjectName(String projectEditsId, String newName) {
-        ProjectEdit projectEdit = projectEditRepository.findById(projectEditsId)
-                .orElseThrow(() -> new RuntimeException("ProjectEdit not found"));
-        projectEdit.setEditedProjectName(newName);
-        return  projectEditRepository.save(projectEdit);
+    // Update existing Project Edit with multiple fields
+    public Optional<ProjectEdit> updateProjectEdit(String projectEditsId, double editedProjectedInvestment,
+                                                   LocalDateTime editedStartDate, LocalDateTime editedExpectedEndDate,
+                                                   String editedProjectName, String editedProjectLocation,
+                                                   String editedProjectStatus, String editedProjectType) {
+        Optional<ProjectEdit> projectEditOpt = projectEditRepository.findById(projectEditsId);
+        if (projectEditOpt.isPresent()) {
+            ProjectEdit projectEdit = projectEditOpt.get();
+            projectEdit.setEditedProjectedInvestment(editedProjectedInvestment);
+            projectEdit.setEditedStartDate(editedStartDate);
+            projectEdit.setEditedExpectedEndDate(editedExpectedEndDate);
+            projectEdit.setEditedProjectName(editedProjectName);
+            projectEdit.setEditedProjectLocation(editedProjectLocation);
+            projectEdit.setEditedProjectStatus(editedProjectStatus);
+            projectEdit.setEditedProjectType(editedProjectType);
+            return Optional.of(projectEditRepository.save(projectEdit));
+        }
+        return Optional.empty();
     }
 
-    // Edit project type
-    public ProjectEdit editProjectType(String projectEditsId, String newType) {
-        ProjectEdit projectEdit = (ProjectEdit) projectEditRepository.findById(projectEditsId)
-                .orElseThrow(() -> new RuntimeException("ProjectEdit not found"));
-        projectEdit.setEditedProjectType(newType);
-        return projectEditRepository.save(projectEdit);
+    // Retrieve a Project Edit by ID
+    public Optional<ProjectEdit> getProjectEditById(String projectEditsId) {
+        return projectEditRepository.findById(projectEditsId);
     }
-
-
-
-    // Edit project location
-    public ProjectEdit editProjectLocation(String projectEditsId, String newLocation) {
-        ProjectEdit projectEdit = projectEditRepository.findById(projectEditsId)
-                .orElseThrow(() -> new RuntimeException("ProjectEdit not found"));
-        projectEdit.setEditedProjectLocation(newLocation);
-        return projectEditRepository.save(projectEdit);
-    }
-
-//    public ProjectEdit editProjectDepartment(String projectEditsId, String newDepartment) {
-//        projectEditRepository.EditedProjectDepartment(newDepartment, projectEditsId);
-//
-//        // Return the updated project edit
-//        return projectEditRepository.findById(projectEditsId)
-//                .orElseThrow(() -> new RuntimeException("ProjectEdit not found"));
-//    }
-
-
-    // Edit project status
-    public ProjectEdit editProjectStatus(String projectEditsId, String newStatus) {
-        ProjectEdit projectEdit = (ProjectEdit) projectEditRepository.findById(projectEditsId)
-                .orElseThrow(() -> new RuntimeException("ProjectEdit not found"));
-        projectEdit.setEditedProjectStatus(newStatus);
-        return projectEditRepository.save(projectEdit);
-    }
-
-
-//    public ProjectEdit getAllProjectEdits(ProjectEdit projectEdit) {
-//        return projectEditRepository.save(projectEdit);
-//
-//    }
 }

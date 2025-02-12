@@ -1,59 +1,51 @@
 package com.example.ExpenseManagement.controllers;
 
-
-
 import com.example.ExpenseManagement.entities.ProjectEdit;
 import com.example.ExpenseManagement.services.ProjectEditService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/projectedits")
+@RequestMapping("/api/project-edits")
 public class ProjectEditController {
 
     @Autowired
     private ProjectEditService projectEditService;
 
-    // Create Project Edit
+    // Create a new Project Edit
     @PostMapping
-    public ProjectEdit createProjectEdit(@RequestBody ProjectEdit projectEdit) {
-        return projectEditService.createProjectEdit(projectEdit);
+    public ResponseEntity<ProjectEdit> createProjectEdit(@RequestBody ProjectEdit projectEdit) {
+        ProjectEdit savedProjectEdit = projectEditService.saveProjectEdit(projectEdit);
+        return ResponseEntity.ok(savedProjectEdit);
     }
 
-    // Edit project location
-    @PatchMapping("/{id}/location")
-    public ProjectEdit editProjectLocation(@PathVariable String id, @RequestBody String newLocation) {
-        return projectEditService.editProjectLocation(id, newLocation);
+    // Update a Project Edit with multiple fields
+    @PutMapping("/{id}")
+    public ResponseEntity<ProjectEdit> updateProjectEdit(
+            @PathVariable("id") String projectEditsId,
+            @RequestParam double editedProjectedInvestment,
+            @RequestParam LocalDateTime editedStartDate,
+            @RequestParam LocalDateTime editedExpectedEndDate,
+            @RequestParam String editedProjectName,
+            @RequestParam String editedProjectLocation,
+            @RequestParam String editedProjectStatus,
+            @RequestParam String editedProjectType) {
+
+        Optional<ProjectEdit> updatedProjectEdit = projectEditService.updateProjectEdit(
+                projectEditsId, editedProjectedInvestment, editedStartDate, editedExpectedEndDate,
+                editedProjectName, editedProjectLocation, editedProjectStatus, editedProjectType);
+
+        return updatedProjectEdit.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-//    // Edit project department
-//    @PatchMapping("/{id}/department")
-//    public ProjectEdit editProjectDepartment(@PathVariable String id, @RequestBody String newDepartment) {
-//        return  projectEditService.editProjectDepartment(id, newDepartment);
-//    }
-
-    // Edit project name
-    @PatchMapping("/{id}/name")
-    public ProjectEdit editProjectName(@PathVariable String id, @RequestBody String newName) {
-        return projectEditService.editProjectName(id, newName);
+    // Get a Project Edit by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<ProjectEdit> getProjectEdit(@PathVariable("id") String projectEditsId) {
+        Optional<ProjectEdit> projectEdit = projectEditService.getProjectEditById(projectEditsId);
+        return projectEdit.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
-
-    // Edit project type
-    @PatchMapping("/{id}/type")
-    public ProjectEdit editProjectType(@PathVariable String id, @RequestBody String newType) {
-        return projectEditService.editProjectType(id, newType);
-    }
-
-    // Edit project status
-    @PatchMapping("/{id}/status")
-    public ProjectEdit editProjectStatus(@PathVariable String id, @RequestBody String newStatus) {
-        return projectEditService.editProjectStatus(id, newStatus);
-    }
-
-
-//
 }
-
-
