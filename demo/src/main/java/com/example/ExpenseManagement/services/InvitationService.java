@@ -12,10 +12,13 @@ import com.example.ExpenseManagement.repositories.InvitationRepository;
 import com.example.ExpenseManagement.repositories.ProjectRepository;
 import com.example.ExpenseManagement.repositories.UserRepository;
 
-import jakarta.transaction.Transactional;
+import org.hibernate.annotations.CreationTimestamp;
+
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.Date;
 import java.util.List;
@@ -43,6 +46,8 @@ public class InvitationService implements InvitationImpl {
         //for checking contact number is exist or not
         String number=invitationDTO.getContactNumber();
         String userId = jwtService.extractUserId(token);
+        logger.info("User Id :-"+userId);
+
         User invitedBy = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("User not found with this Id"));
        User invitedUser = userRepository.findByPhoneNo(number);
@@ -58,51 +63,74 @@ public class InvitationService implements InvitationImpl {
         if (existingInvitation.isPresent()) {
             throw new InvitationNotFound("Invitation already sent!");
         }
-
         Invitation invitation = new Invitation();
         invitation.setUserName(invitationDTO.getName());
         invitation.setPhoneNumber(invitationDTO.getContactNumber());
         invitation.setProjectedBudget(invitationDTO.getProjectedAmount());
         invitation.setProject(project);
-        invitation.setInvitationId(String.valueOf(invitedBy));
+        invitation.setUser(invitedBy);
         invitation.setStatus(InvitationStatus.PENDING);
         return invitationRepository.save(invitation);
-
     }
 
     @Override
     public List<Invitation> getAllInvitation() {
 
+        logger.info("Inside Get All Invitations");
+        List<Invitation> all = invitationRepository.findAll();
+        if (all.isEmpty())
+        {
+            throw new InvitationNotFound("No invitation found");
+        }
+        return all;
+
+
         return invitationRepository.findAll();
+
     }
 
     public List<InvitationDTO> getInvitationsSentByUser(String token) {
-        // Extract userId from the token
-        String userId = jwtService.extractUserId(token);
-        // Fetch invitations sent by this user
+        String token1=token;
+        if (token1 != null && token1.startsWith("Bearer ")) {
+            token1 = token1.substring(7).trim();
+        }
+        String userId = jwtService.extractUserId(token1);
+        logger.info("Find All Invitations Send By Self::-"+userId);
         List<Invitation> invitations = invitationRepository.findByUser(userId);
-        // Convert Invitation entities to DTOs
         return invitations.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
     private InvitationDTO mapToDTO(Invitation invitation) {
         return new InvitationDTO(
                 invitation.getUserName(),
+                invitation.getCountryCode(),
                 invitation.getProject().getProjectId(),
                 invitation.getPhoneNumber(),
-                invitation.getProjectedBudget()
+                invitation.getProjectedBudget(),
+                invitation.getStatus()
         );
     }
     
-    @Transactional
-    public void updateInvitationStatus(String invitationId, InvitationStatus status) {
-        Invitation invitation = invitationRepository.findById(invitationId)
-                .orElseThrow(() -> new RuntimeException("Invitation not found"));
 
-        invitation.setStatus(status);
-        invitation.setUpdated(new Date());
+    public List<Invitation> getPendingInvitations() {
+        logger.info("Get All Pending Invitation");
+        return invitationRepository.findByStatus(InvitationStatus.PENDING);
+    }
+   /* public List<Invitation> getAcceptedInvitations() {
+        logger.info("Get All Pending Invitation");
+        return invitationRepository.findByStatus(InvitationStatus.ACCEPTED);
+    }*/
 
-        invitationRepository.save(invitation);
+
+    public Invitation updateInvitationStatus(String invitationId, InvitationStatus status) {
+        Optional<Invitation> invitationID = invitationRepository.findById(invitationId);
+        if (invitationID.isPresent()) {
+            Invitation invitation = invitationID.get();
+            invitation.setStatus(status);
+            return invitationRepository.save(invitation);
+        } else {
+            throw new InvitationNotFound("Invitation not found for ID: " + invitationId);
+        }
     }
 
 }
