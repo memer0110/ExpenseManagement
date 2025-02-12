@@ -48,10 +48,17 @@ public class TransactionController {
         return ResponseEntity.ok(updatedTransaction);
     }
 
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable String id) {
         log.info("DELETE request to remove transaction with ID: {}", id);
         transactionService.deleteTransaction(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/by-project/{projectId}")
+    public List<TransactionDTO> getTransactionsByProjectId(@PathVariable String projectId) {
+        return transactionService.getTransactionsByProjectId(projectId);
     }
 }

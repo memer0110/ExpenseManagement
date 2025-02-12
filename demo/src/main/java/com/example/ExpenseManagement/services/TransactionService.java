@@ -66,6 +66,12 @@ public class TransactionService {
         transactionRepository.delete(transaction);
     }
 
+    public List<TransactionDTO> getTransactionsByProjectId(String projectId) {
+        List<Transaction> transactions = transactionRepository.findByProject_ProjectId(projectId);
+
+        return transactions.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
     private TransactionDTO convertToDTO(Transaction transaction) {
         TransactionDTO dto = new TransactionDTO();
         dto.setTransactionId(transaction.getTransactionId());
