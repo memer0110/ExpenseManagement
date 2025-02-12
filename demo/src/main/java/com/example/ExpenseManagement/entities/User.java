@@ -2,6 +2,8 @@ package com.example.ExpenseManagement.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class User {
     @Column(name = "country_code")
     private String countryCode;
 
+    @CreatedDate
     @Column(name = "created", nullable = false, updatable = false, insertable = false)
     private Timestamp created;
 
@@ -56,7 +59,7 @@ public class User {
     @Column(name = "userstatus", nullable = false)
     private Boolean userStatus;
 
-    @OneToMany(mappedBy = "user_id")
+    @OneToMany(mappedBy = "user")
     private List<Project> projects;
 
     // Default Constructor

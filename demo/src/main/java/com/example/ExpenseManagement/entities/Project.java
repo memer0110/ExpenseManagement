@@ -55,10 +55,12 @@ public class Project {
     @Column(name = "updated", nullable = false, insertable = false)
     private Timestamp updated;
 
-	@Column(nullable = false)
+	//@Column(nullable = false)
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+
 
 	public User getUser() {
 		return user;
@@ -168,4 +170,6 @@ public class Project {
 		this.updated = updated;
 	}
 
+	public void setExpectedEndDuration(int expectedEndDuration) {
+	}
 }

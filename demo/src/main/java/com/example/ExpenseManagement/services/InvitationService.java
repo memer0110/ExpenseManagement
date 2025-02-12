@@ -8,6 +8,7 @@ import com.example.ExpenseManagement.entities.InvitationStatus;
 import com.example.ExpenseManagement.entities.Project;
 import com.example.ExpenseManagement.entities.User;
 import com.example.ExpenseManagement.repositories.InvitationRepository;
+import com.example.ExpenseManagement.repositories.ProjectRepository;
 import com.example.ExpenseManagement.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
