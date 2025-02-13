@@ -1,5 +1,6 @@
 package com.example.ExpenseManagement.repositories;
 
+import com.example.ExpenseManagement.entities.Project;
 import com.example.ExpenseManagement.entities.ProjectEdit;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,9 +13,8 @@ import java.util.List;
 
 @Repository
 public interface ProjectEditRepository extends JpaRepository<ProjectEdit, String> {
-//    @Modifying
-//    @Transactional
-//    @Query("UPDATE ProjectEdit p SET p.department = :department WHERE p.id = :id")
-//    void EditedProjectDepartment(@Param("id") String id, @Param("department") String department);
-}
 
+    @Query("SELECT p FROM Project p WHERE p.user.userId = :userId")
+    List<ProjectEdit> findByUserUserId(String userId);
+
+}
