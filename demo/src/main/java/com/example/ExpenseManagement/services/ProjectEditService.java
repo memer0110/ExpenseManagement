@@ -14,33 +14,27 @@ public class ProjectEditService {
     @Autowired
     private ProjectEditRepository projectEditRepository;
 
-    // Create a new Project Edit
-    public ProjectEdit saveProjectEdit(ProjectEdit projectEdit) {
-        return projectEditRepository.save(projectEdit);
+    public Optional<ProjectEdit> getProjectEditById(String id) {
+        return projectEditRepository.findById(id);
     }
 
-    // Update existing Project Edit with multiple fields
-    public Optional<ProjectEdit> updateProjectEdit(String projectEditsId, double editedProjectedInvestment,
-                                                   LocalDateTime editedStartDate, LocalDateTime editedExpectedEndDate,
-                                                   String editedProjectName, String editedProjectLocation,
-                                                   String editedProjectStatus, String editedProjectType) {
-        Optional<ProjectEdit> projectEditOpt = projectEditRepository.findById(projectEditsId);
-        if (projectEditOpt.isPresent()) {
-            ProjectEdit projectEdit = projectEditOpt.get();
-            projectEdit.setEditedProjectedInvestment(editedProjectedInvestment);
-            projectEdit.setEditedStartDate(editedStartDate);
-            projectEdit.setEditedExpectedEndDate(editedExpectedEndDate);
-            projectEdit.setEditedProjectName(editedProjectName);
-            projectEdit.setEditedProjectLocation(editedProjectLocation);
-            projectEdit.setEditedProjectStatus(editedProjectStatus);
-            projectEdit.setEditedProjectType(editedProjectType);
-            return Optional.of(projectEditRepository.save(projectEdit));
+    public ProjectEdit updateProjectEdit(String id, ProjectEdit updatedProjectEdit) {
+        Optional<ProjectEdit> existingProjectEdit = projectEditRepository.findById(id);
+        if (existingProjectEdit.isPresent()) {
+            ProjectEdit projectEdit = existingProjectEdit.get();
+            projectEdit.setEditedProjectName(updatedProjectEdit.getEditedProjectName());
+            projectEdit.setEditedProjectLocation(updatedProjectEdit.getEditedProjectLocation());
+            projectEdit.setEditedProjectStatus(updatedProjectEdit.getEditedProjectStatus());
+            projectEdit.setEditedProjectedInvestment(updatedProjectEdit.getEditedProjectedInvestment());
+            projectEdit.setEditedStartDate(updatedProjectEdit.getEditedStartDate());
+            projectEdit.setEditedExpectedEndDate(updatedProjectEdit.getEditedExpectedEndDate());
+            projectEdit.setEditedExpectedEndDuration(updatedProjectEdit.getEditedExpectedEndDuration());
+
+            // Update other fields as necessary
+
+            return projectEditRepository.save(projectEdit);
+        } else {
+            return null; // Or throw an exception if project edit not found
         }
-        return Optional.empty();
-    }
-
-    // Retrieve a Project Edit by ID
-    public Optional<ProjectEdit> getProjectEditById(String projectEditsId) {
-        return projectEditRepository.findById(projectEditsId);
     }
 }
