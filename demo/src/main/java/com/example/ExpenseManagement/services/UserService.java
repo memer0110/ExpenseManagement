@@ -60,30 +60,35 @@ public class UserService {
         String userId = fullUser.getUserId();
 
 
+
         Authentication authentication = authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userId, user.getUserPassword())
         );
 
         if (authentication.isAuthenticated()) {
 
+            String accessToken = jwtService.generateAccessToken(fullUser.orElse(null));
+            String refreshToken = jwtService.generateRefreshToken(fullUser.orElse(null));
+
 
             String accessToken = jwtService.generateAccessToken(fullUser);
             String refreshToken = jwtService.generateRefreshToken(fullUser);
 
+
             UserDTO userDTO = new UserDTO(
-                    fullUser.getUserId(),
-                    fullUser.getCountryCode(),
-                    fullUser.getCreated(),
-                    fullUser.getEmail(),
-                    fullUser.getFirstName(),
-                    fullUser.getLastName(),
-                    fullUser.getGender(),
-                    fullUser.getImgUrl(),
-                    fullUser.isDeleted(),
-                    fullUser.getPhoneNo(),
-                    fullUser.getRole(),
-                    fullUser.getUpdated(),
-                    fullUser.isUserStatus()
+                    fullUser.get().getUserId(),
+                    fullUser.get().getCountryCode(),
+                    fullUser.get().getCreated(),
+                    fullUser.get().getEmail(),
+                    fullUser.get().getFirstName(),
+                    fullUser.get().getLastName(),
+                    fullUser.get().getGender(),
+                    fullUser.get().getImgUrl(),
+                    fullUser.get().isDeleted(),
+                    fullUser.get().getPhoneNo(),
+                    fullUser.get().getRole(),
+                    fullUser.get().getUpdated(),
+                    fullUser.get().isUserStatus()
             );
 
 

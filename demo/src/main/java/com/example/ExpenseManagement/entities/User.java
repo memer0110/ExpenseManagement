@@ -2,8 +2,7 @@ package com.example.ExpenseManagement.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -21,8 +20,10 @@ public class User {
     private String countryCode;
 
 
+
     @CreationTimestamp
     @Column(name = "created", nullable = false, updatable = false)
+
     private Timestamp created;
 
     @Column(name = "email", nullable = false)

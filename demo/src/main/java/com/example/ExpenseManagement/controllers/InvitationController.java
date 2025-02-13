@@ -43,6 +43,7 @@ public class InvitationController {
     }
 
 
+
     @GetMapping("/getInvitationByUser")
     public ResponseEntity<?> getSentInvitations(
             @RequestHeader("Authorization") String token) {
@@ -71,3 +72,4 @@ public class InvitationController {
     }
 
 }
+

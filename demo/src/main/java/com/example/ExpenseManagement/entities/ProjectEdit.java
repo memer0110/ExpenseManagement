@@ -3,12 +3,7 @@ package com.example.ExpenseManagement.entities;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "project_edits", schema = "expensemanagement")
@@ -16,6 +11,7 @@ public class ProjectEdit {
 
     @Id
     @Column(name = "project_edits_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.UUID)
     private String projectEditsId;
 
     @Column(name = "created", nullable = false, updatable = false, insertable = false)

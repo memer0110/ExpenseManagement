@@ -60,9 +60,12 @@ public class Project {
 	private Timestamp updated;
 
 
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+
+
 
 	public User getUser() {
 		return user;
@@ -177,4 +180,6 @@ public class Project {
 		this.updated = updated;
 	}
 
+	public void setExpectedEndDuration(int expectedEndDuration) {
+	}
 }
