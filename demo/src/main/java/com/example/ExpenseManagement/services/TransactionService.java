@@ -2,7 +2,7 @@ package com.example.ExpenseManagement.services;
 
 import com.example.ExpenseManagement.DTO.TransactionDTO;
 import com.example.ExpenseManagement.entities.Transaction;
-import com.example.ExpenseManagement.exceptions.ResourceNotFoundException;
+import com.example.ExpenseManagement.exception.ResourceNotFoundException;
 import com.example.ExpenseManagement.repositories.TransactionRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class TransactionService {
     public TransactionDTO getTransactionById(String transactionId) {
         log.info("Fetching transaction with ID: {}", transactionId);
         Transaction transaction = transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new ResourceNotFoundException("Transaction not found with ID: " + transactionId));
+                .orElseThrow(() -> new com.example.ExpenseManagement.exception.ResourceNotFoundException("Transaction not found with ID: " + transactionId));
         return convertToDTO(transaction);
     }
 

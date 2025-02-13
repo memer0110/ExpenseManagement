@@ -1,4 +1,4 @@
-package com.example.ExpenseManagement.customExceptionHandel;
+package com.example.ExpenseManagement.exception;
 
 
 import lombok.Data;

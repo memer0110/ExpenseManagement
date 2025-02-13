@@ -1,4 +1,4 @@
-package com.example.ExpenseManagement.customExceptionHandel;
+package com.example.ExpenseManagement.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(String message) {

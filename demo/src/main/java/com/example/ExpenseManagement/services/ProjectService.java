@@ -1,9 +1,9 @@
 package com.example.ExpenseManagement.services;
 
-import com.example.ExpenseManagement.customExceptionHandel.BadRequestException;
-import com.example.ExpenseManagement.customExceptionHandel.ResourceNotFoundException;
-import com.example.ExpenseManagement.customExceptionHandel.UnauthorizedException;
 import com.example.ExpenseManagement.entities.Project;
+import com.example.ExpenseManagement.exception.BadRequestException;
+import com.example.ExpenseManagement.exception.ResourceNotFoundException;
+import com.example.ExpenseManagement.exception.UnauthorizedException;
 import com.example.ExpenseManagement.repositories.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

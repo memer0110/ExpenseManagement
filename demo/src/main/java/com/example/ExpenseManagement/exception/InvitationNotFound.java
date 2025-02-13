@@ -1,4 +1,4 @@
-package com.example.ExpenseManagement.customExceptionHandel;
+package com.example.ExpenseManagement.exception;
 
 public class InvitationNotFound extends RuntimeException{
 
