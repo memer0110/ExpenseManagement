@@ -67,5 +67,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponce, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(TransactionNotFoundException.class)
+    public ResponseEntity<?>TransactionNotFoundException(UserNotFoundException exception) {
+        ErrorResponce errorResponce=new ErrorResponce(LocalDateTime.now(),exception.getMessage(),"SomeThing Went Wrong");
+        return new ResponseEntity<>(errorResponce, HttpStatus.NOT_FOUND);
+    }
+
 }
 

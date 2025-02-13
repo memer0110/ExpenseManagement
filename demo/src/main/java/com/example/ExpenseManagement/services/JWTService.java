@@ -18,10 +18,12 @@ import java.util.function.Function;
 
 @Service
 public class JWTService {
-    private static final Logger logger = LoggerFactory.getLogger(JWTService.class);
+
     
     private final String secret = "YourSuperSecretKeyForJWTValidationMustBeLongEnough";
     private final SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes());
+    
+    
     private final MyUserDetailService myUserDetails;
 
     @Autowired
@@ -30,7 +32,7 @@ public class JWTService {
     }
 
     public String generateAccessToken(User user) {
-        logger.info("Generating access token for user: {}", user.getUserId());
+
         Map<String, Object> claims = new HashMap<>();
         claims.put("Email", user.getEmail());
         claims.put("phoneNumber", user.getPhoneNo());
@@ -46,12 +48,12 @@ public class JWTService {
                 .signWith(secretKey)
                 .compact();
         
-        logger.info("Access token generated successfully");
+
         return token;
     }
 
     public String generateRefreshToken(User user) {
-        logger.info("Generating refresh token for user: {}", user.getUserId());
+
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getUserId());
         claims.put("type", "refresh");
@@ -66,16 +68,15 @@ public class JWTService {
                 .signWith(secretKey)
                 .compact();
         
-        logger.info("Refresh token generated successfully");
+
         return token;
     }
 
     public String extractUserId(String token) {
-        logger.debug("Extracting user ID from token");
+
         try {
             return extractClaim(token, Claims::getSubject);
         } catch (Exception e) {
-            logger.error("Error extracting user ID from token", e);
             return null;
         }
 
@@ -94,20 +95,18 @@ public class JWTService {
                     .parseSignedClaims(token)
                     .getPayload();
         } catch (JwtException e) {
-            logger.error("Invalid JWT token", e);
             throw e;
         }
     }
 
     public boolean validateToken(String token, UserDetails userDetails) {
-        logger.debug("Validating token for user: {}", userDetails.getUsername());
+
         try {
             final String userId = extractUserId(token);
             Claims claims = extractAllClaims(token);
             boolean isAccessToken = !claims.containsKey("type") || !"refresh".equals(claims.get("type"));
             return userId.equals(userDetails.getUsername()) && !isTokenExpired(token);
         } catch (Exception e) {
-            logger.error("Token validation failed", e);
             return false;
         }
     }
@@ -121,19 +120,13 @@ public class JWTService {
     }
 
     public boolean validateRefreshToken(String refreshToken) {
-        logger.debug("Validating refresh token");
+
         try {
             Claims claims = extractAllClaims(refreshToken);
             boolean isRefreshToken = "refresh".equals(claims.get("type"));
             boolean isValid = !claims.getExpiration().before(new Date()) && isRefreshToken;
-            if (isValid) {
-                logger.info("Refresh token is valid");
-            } else {
-                logger.warn("Refresh token is invalid or expired");
-            }
             return isValid;
         } catch (JwtException | IllegalArgumentException e) {
-            logger.error("Error validating refresh token", e);
             return false;
         }
     }
