@@ -30,11 +30,11 @@ public class ProjectEditService {
             projectEdit.setEditedExpectedEndDate(updatedProjectEdit.getEditedExpectedEndDate());
             projectEdit.setEditedExpectedEndDuration(updatedProjectEdit.getEditedExpectedEndDuration());
 
-            // Update other fields as necessary
+            
 
             return projectEditRepository.save(projectEdit);
         } else {
-            return null; // Or throw an exception if project edit not found
+            return null; 
         }
     }
 }
