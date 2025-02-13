@@ -1,9 +1,9 @@
 package com.example.ExpenseManagement.controllers;
 
 import com.example.ExpenseManagement.DTO.InvitationDTO;
-import com.example.ExpenseManagement.customExceptionHandel.InvitationNotFound;
 import com.example.ExpenseManagement.entities.Invitation;
 import com.example.ExpenseManagement.entities.InvitationStatus;
+import com.example.ExpenseManagement.exception.InvitationNotFound;
 import com.example.ExpenseManagement.services.InvitationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

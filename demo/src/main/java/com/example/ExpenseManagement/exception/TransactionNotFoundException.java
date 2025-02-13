@@ -1,4 +1,4 @@
-package com.example.ExpenseManagement.customExceptionHandel;
+package com.example.ExpenseManagement.exception;
 
 public class TransactionNotFoundException extends RuntimeException {
     public TransactionNotFoundException(String message) {

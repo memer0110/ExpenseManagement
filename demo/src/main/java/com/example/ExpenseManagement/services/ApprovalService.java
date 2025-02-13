@@ -36,7 +36,7 @@ public class ApprovalService {
 
     @Transactional
     public ApprovalDTO approveInvitation(String token, String invitationId, String status) {
-
+    try {
         String userId = jwtService.extractUserId(token);
 
         Invitation invitation = invitationRepository.findById(invitationId)
@@ -56,11 +56,9 @@ public class ApprovalService {
         approvalRepository.save(approval);
         
         InvitationStatus invitationStatus;
-        try {
-            invitationStatus = InvitationStatus.valueOf(status.toUpperCase()); 
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException("Invalid invitation status: " + status);
-        }
+       
+        invitationStatus = InvitationStatus.valueOf(status.toUpperCase()); 
+
 
         invitationService.updateInvitationStatus(invitationId, invitationStatus);
 
@@ -74,7 +72,11 @@ public class ApprovalService {
                 approval.getCreated(),
                 approval.getUpdated()
         );
-
+        
         return responseDTO;
+        
+       	} catch (IllegalArgumentException e) {
+           throw new RuntimeException("Invalid invitation status: " + status);
+       	}       
     }
 }
